@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blake Elford · Application for Caterpillar</title>
+<meta name="description" content="A custom application landing page for Caterpillar's Market Research Consultant role. By Blake Elford.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --safety-yellow: #FFCC00;
+    --safety-yellow-deep: #E5B800;
+    --asphalt: #141414;
+    --asphalt-soft: #1F1F1F;
+    --concrete: #C9C5BD;
+    --concrete-dark: #6B665C;
+    --concrete-light: #E8E4DC;
+    --blueprint: #002B45;
+    --blueprint-light: #1A4D6E;
+    --paper: #F5F0E8;
+    --rust: #B85C2E;
+    --warning-red: #C8302A;
+
+    --font-display: 'Big Shoulders Stencil Display', 'Impact', sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--asphalt);
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  /* === Concrete / grain texture overlay === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.18 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  /* ============================================================
+     CAUTION TAPE DIVIDER
+     ============================================================ */
+  .caution-tape {
+    height: 36px;
+    width: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--asphalt) 0,
+      var(--asphalt) 24px,
+      var(--safety-yellow) 24px,
+      var(--safety-yellow) 48px
+    );
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.08), 0 -4px 0 rgba(0,0,0,0.08);
+    animation: tapeShift 8s linear infinite;
+  }
+
+  @keyframes tapeShift {
+    from { background-position: 0 0; }
+    to { background-position: 96px 0; }
+  }
+
+  .caution-tape.thin {
+    height: 18px;
+  }
+
+  /* ============================================================
+     UTILITY CLASSES
+     ============================================================ */
+  .container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .stencil {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .label-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--asphalt);
+    color: var(--safety-yellow);
+    padding: 0.4rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .label-tag::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--safety-yellow);
+    display: inline-block;
+  }
+
+  /* ============================================================
+     HERO — JOB SITE #001
+     ============================================================ */
+  .hero {
+    min-height: 100vh;
+    background: var(--asphalt);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 0 0;
+  }
+
+  /* Blueprint grid in hero */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 204, 0, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 204, 0, 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+
+  .hero-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--safety-yellow);
+    border-bottom: 2px solid var(--safety-yellow);
+    padding: 0.75rem 0;
+    margin-bottom: 4rem;
+  }
+
+  .hero-topbar .left,
+  .hero-topbar .right {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .hero-topbar .mono {
+    color: var(--safety-yellow);
+  }
+
+  .hero-topbar .divider-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--safety-yellow);
+    border-radius: 50%;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    flex: 1;
+    padding-bottom: 2rem;
+  }
+
+  .hero-text {
+    position: relative;
+  }
+
+  .hero-jobsite-marker {
+    display: inline-block;
+    margin-bottom: 1.25rem;
+    color: var(--safety-yellow);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-left: 4px solid var(--safety-yellow);
+    padding-left: 0.85rem;
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    line-height: 0.86;
+    letter-spacing: 0.01em;
+    color: var(--paper);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-name .accent {
+    color: var(--safety-yellow);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--concrete);
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    max-width: 32ch;
+    line-height: 1.55;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 2rem;
+    max-width: 480px;
+    border-top: 1px dashed rgba(255,204,0,0.3);
+    padding-top: 1.5rem;
+  }
+
+  .hero-meta-item .key {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--safety-yellow);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-meta-item .val {
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--paper);
+    font-size: 0.95rem;
+  }
+
+  /* Excavator illustration */
+  .hero-visual {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .excavator-svg {
+    width: 100%;
+    max-width: 460px;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,0.4));
+  }
+
+  .excavator-svg .body-shape {
+    fill: var(--safety-yellow);
+  }
+
+  .excavator-svg .dark {
+    fill: var(--asphalt);
+  }
+
+  .excavator-svg .accent-stroke {
+    stroke: var(--asphalt);
+    stroke-width: 3;
+    fill: none;
+  }
+
+  /* Boom subtle sway */
+  .excavator-boom {
+    transform-origin: 165px 165px;
+    animation: boomSway 6s ease-in-out infinite;
+  }
+
+  @keyframes boomSway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-3deg); }
+  }
+
+  /* Tracks subtle motion line */
+  .track-tread {
+    animation: tracksRoll 1.4s linear infinite;
+  }
+
+  @keyframes tracksRoll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-12px); }
+  }
+
+  /* Scroll prompt */
+  .scroll-prompt {
+    position: relative;
+    background: var(--safety-yellow);
+    color: var(--asphalt);
+    padding: 1rem 0;
+    border-top: 4px double var(--asphalt);
+    border-bottom: 4px double var(--asphalt);
+    z-index: 3;
+  }
+
+  .scroll-prompt-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .arrow-down {
+    display: inline-block;
+    animation: bounceDown 1.6s ease-in-out infinite;
+  }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ============================================================
+     SECTION HEADERS
+     ============================================================ */
+  .section {
+    padding: 6rem 0;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--concrete-dark);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-num::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--asphalt);
+    display: inline-block;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 0.92;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--asphalt);
+  }
+
+  .section-title .accent {
+    color: var(--safety-yellow-deep);
+    -webkit-text-stroke: 2px var(--asphalt);
+    text-stroke: 2px var(--asphalt);
+  }
+
+  /* ============================================================
+     THE BRIEF — blueprint section
+     ============================================================ */
+  .brief {
+    background: var(--blueprint);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brief::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .brief .section-num,
+  .brief .section-num::before {
+    color: var(--safety-yellow);
+    background: var(--safety-yellow);
+  }
+
+  .brief .section-num {
+    color: var(--safety-yellow);
+    background: transparent;
+  }
+
+  .brief .section-title {
+    color: var(--paper);
+  }
+
+  .brief-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .brief-prose p {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    margin-bottom: 1.4rem;
+    max-width: 56ch;
+  }
+
+  .brief-prose p:last-child {
+    margin-bottom: 0;
+  }
+
+  .brief-callout {
+    border: 1px dashed rgba(255, 204, 0, 0.5);
+    padding: 1.6rem;
+    background: rgba(0, 0, 0, 0.18);
+    position: relative;
+  }
+
+  .brief-callout::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid var(--safety-yellow);
+    border-left: 2px solid var(--safety-yellow);
+  }
+
+  .brief-callout::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 16px;
+    height: 16px;
+    border-bottom: 2px solid var(--safety-yellow);
+    border-right: 2px solid var(--safety-yellow);
+  }
+
+  .brief-spec-list {
+    list-style: none;
+    margin-top: 2rem;
+  }
+
+  .brief-spec-list li {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    padding: 0.85rem 0;
+    border-bottom: 1px dashed rgba(255, 204, 0, 0.2);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    align-items: baseline;
+  }
+
+  .brief-spec-list li:last-child {
+    border-bottom: none;
+  }
+
+  .brief-spec-list .spec-key {
+    color: var(--safety-yellow);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+  }
+
+  .brief-spec-list .spec-val {
+    color: var(--paper);
+  }
+
+  /* ============================================================
+     EXCAVATIONS — case study sites
+     ============================================================ */
+  .excavation {
+    background: var(--paper);
+  }
+
+  .excavation-intro {
+    max-width: 60ch;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: var(--asphalt-soft);
+    margin-bottom: 4rem;
+  }
+
+  .dig-site {
+    margin-bottom: 5rem;
+    background: var(--concrete-light);
+    border: 2px solid var(--asphalt);
+    box-shadow: 8px 8px 0 var(--asphalt);
+    position: relative;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease;
+  }
+
+  .dig-site.in-view {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .dig-site:nth-child(even) {
+    margin-left: 4%;
+  }
+
+  .dig-site-header {
+    background: var(--asphalt);
+    color: var(--safety-yellow);
+    padding: 1rem 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .dig-site-header .site-id {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dig-site-header .site-id::before {
+    content: '◆';
+    color: var(--safety-yellow);
+  }
+
+  .dig-site-header .depth-tag {
+    color: var(--concrete);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+  }
+
+  .dig-site-body {
+    padding: 2.5rem 1.6rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+  }
+
+  .dig-site-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    color: var(--asphalt);
+  }
+
+  .dig-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .dig-block-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--concrete-dark);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dig-block-label::before {
+    content: '';
+    width: 10px;
+    height: 2px;
+    background: var(--safety-yellow-deep);
+    display: inline-block;
+  }
+
+  .dig-block p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--asphalt);
+  }
+
+  .dig-stats {
+    border-left: 4px solid var(--safety-yellow);
+    background: var(--paper);
+    padding: 1.5rem;
+    align-self: start;
+  }
+
+  .dig-stats-headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--asphalt);
+    margin-bottom: 0.4rem;
+  }
+
+  .dig-stats-headline.split {
+    font-size: 2.6rem;
+  }
+
+  .dig-stats-headline .arrow {
+    color: var(--safety-yellow-deep);
+    margin: 0 0.4rem;
+  }
+
+  .dig-stats-caption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--concrete-dark);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .dig-stats-list {
+    list-style: none;
+    margin-top: 1rem;
+  }
+
+  .dig-stats-list li {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.45rem 0;
+    border-top: 1px dashed var(--concrete);
+    color: var(--asphalt);
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .dig-stats-list li::before {
+    content: '▸';
+    color: var(--safety-yellow-deep);
+  }
+
+  .source-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .source-item {
+    background: var(--asphalt);
+    color: var(--paper);
+    padding: 0.55rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .source-item .src-tag {
+    color: var(--safety-yellow);
+    font-size: 0.65rem;
+  }
+
+  /* ============================================================
+     TOOLKIT — pegboard section
+     ============================================================ */
+  .toolkit {
+    background: var(--asphalt);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .toolkit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  .toolkit .section-num {
+    color: var(--safety-yellow);
+  }
+
+  .toolkit .section-num::before {
+    background: var(--safety-yellow);
+  }
+
+  .toolkit .section-title {
+    color: var(--paper);
+  }
+
+  .pegboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .tool-rack {
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+  }
+
+  .tool-rack::before,
+  .tool-rack::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--safety-yellow);
+    border-radius: 50%;
+    background: var(--asphalt);
+  }
+
+  .tool-rack::before { top: -6px; left: 16px; }
+  .tool-rack::after { top: -6px; right: 16px; }
+
+  .tool-rack-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--safety-yellow);
+    margin-bottom: 0.5rem;
+  }
+
+  .tool-rack-sub {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--concrete);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed rgba(255, 204, 0, 0.25);
+  }
+
+  .tool-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-list li {
+    background: var(--asphalt-soft);
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    color: var(--paper);
+    padding: 0.5rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+
+  .tool-list li:hover {
+    background: var(--safety-yellow);
+    color: var(--asphalt);
+    border-color: var(--safety-yellow);
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 var(--safety-yellow-deep);
+  }
+
+  /* ============================================================
+     CTA / CONTACT
+     ============================================================ */
+  .cta {
+    background: var(--safety-yellow);
+    color: var(--asphalt);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(0,0,0,0.025) 20px,
+      rgba(0,0,0,0.025) 40px
+    );
+    pointer-events: none;
+  }
+
+  .cta .section-num,
+  .cta .section-num::before {
+    color: var(--asphalt);
+    background: var(--asphalt);
+  }
+
+  .cta .section-num {
+    color: var(--asphalt);
+    background: transparent;
+  }
+
+  .cta .section-title {
+    color: var(--asphalt);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-sub {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 50ch;
+    margin-bottom: 3rem;
+    color: var(--asphalt);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .contact-card {
+    background: var(--asphalt);
+    color: var(--paper);
+    padding: 1.6rem;
+    text-decoration: none;
+    border: 3px solid var(--asphalt);
+    transition: all 0.2s ease;
+    display: block;
+    position: relative;
+  }
+
+  .contact-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--asphalt-soft);
+  }
+
+  .contact-card .card-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--safety-yellow);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .contact-card .card-label::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--safety-yellow);
+    display: inline-block;
+  }
+
+  .contact-card .card-val {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1.05rem;
+    word-break: break-word;
+  }
+
+  .portfolio-strip {
+    background: var(--asphalt);
+    color: var(--paper);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    flex-wrap: wrap;
+    gap: 1rem;
+    transition: background 0.2s ease;
+  }
+
+  .portfolio-strip:hover {
+    background: var(--asphalt-soft);
+  }
+
+  .portfolio-strip .strip-text {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .portfolio-strip .strip-text .accent {
+    color: var(--safety-yellow);
+  }
+
+  .portfolio-strip .strip-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--safety-yellow);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .portfolio-strip:hover .strip-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer {
+    background: var(--asphalt);
+    color: var(--concrete);
+    padding: 2.5rem 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+
+  .footer-line {
+    border-top: 1px dashed rgba(255, 204, 0, 0.25);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    color: var(--concrete-dark);
+  }
+
+  /* ============================================================
+     ENTRANCE ANIMATIONS
+     ============================================================ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-reveal {
+    opacity: 0;
+    animation: heroFadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .hero-reveal.delay-1 { animation-delay: 0.2s; }
+  .hero-reveal.delay-2 { animation-delay: 0.4s; }
+  .hero-reveal.delay-3 { animation-delay: 0.6s; }
+  .hero-reveal.delay-4 { animation-delay: 0.8s; }
+  .hero-reveal.delay-5 { animation-delay: 1.0s; }
+
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 880px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding-bottom: 3rem;
+    }
+
+    .hero-visual {
+      order: -1;
+      max-height: 240px;
+    }
+
+    .excavator-svg {
+      max-width: 320px;
+    }
+
+    .hero-meta {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .brief-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .dig-site-body {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      padding: 2rem 1.25rem;
+    }
+
+    .dig-site:nth-child(even) {
+      margin-left: 0;
+    }
+
+    .dig-stats-headline {
+      font-size: 2.6rem;
+    }
+
+    .dig-stats-headline.split {
+      font-size: 2rem;
+    }
+
+    .pegboard {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-topbar {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .scroll-prompt-inner {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .scroll-prompt-inner span {
+      font-size: 0.7rem;
+    }
+
+    .portfolio-strip {
+      padding: 1.5rem;
+    }
+
+    .portfolio-strip .strip-text {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Print friendliness */
+  @media print {
+    .caution-tape, .scroll-prompt { display: none; }
+    body::before { display: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     HERO — JOB SITE #001
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-topbar hero-reveal">
+      <div class="left">
+        <span class="mono">JOB SITE NO. 001</span>
+        <span class="divider-dot"></span>
+        <span class="mono">CHICAGO · ILL</span>
+      </div>
+      <div class="right">
+        <span class="mono">FILE: APP-2026-0428</span>
+        <span class="divider-dot"></span>
+        <span class="mono">STATUS: ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="hero-jobsite-marker hero-reveal delay-1">RE: MARKET COMMUNICATIONS CONSULTANT · CATERPILLAR</span>
+        <h1 class="hero-name hero-reveal delay-2">
+          BLAKE<br>
+          <span class="accent">ELFORD</span>
+        </h1>
+        <p class="hero-tagline hero-reveal delay-3">
+          A custom-built application landing page. Same person you'll find on the resume, with a little more room to show the work.
+        </p>
+        <div class="hero-meta hero-reveal delay-4">
+          <div class="hero-meta-item">
+            <div class="key">Specialty</div>
+            <div class="val">Voice of Customer · Research Synthesis · Data Quality</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="key">Experience</div>
+            <div class="val">6+ years B2B marketing · SaaS &amp; enterprise</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="key">Most Recently</div>
+            <div class="val">Life Fitness / Hammer Strength · Hospitality &amp; MUH segments</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="key">Location</div>
+            <div class="val">Chicago, IL · Onsite ready</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual hero-reveal delay-5">
+        <svg class="excavator-svg" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" aria-label="Stylized excavator illustration">
+          <!-- Ground line -->
+          <line x1="20" y1="320" x2="440" y2="320" stroke="#FFCC00" stroke-width="2" stroke-dasharray="6,6" opacity="0.4"/>
+
+          <!-- Tracks -->
+          <g>
+            <rect x="50" y="265" width="280" height="42" rx="20" class="dark"/>
+            <rect x="58" y="272" width="264" height="28" rx="14" class="body-shape"/>
+            <!-- Track tread marks -->
+            <g class="track-tread">
+              <line x1="74" y1="272" x2="74" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="98" y1="272" x2="98" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="122" y1="272" x2="122" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="146" y1="272" x2="146" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="170" y1="272" x2="170" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="194" y1="272" x2="194" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="218" y1="272" x2="218" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="242" y1="272" x2="242" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="266" y1="272" x2="266" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="290" y1="272" x2="290" y2="300" stroke="#141414" stroke-width="3"/>
+              <line x1="314" y1="272" x2="314" y2="300" stroke="#141414" stroke-width="3"/>
+            </g>
+            <!-- Sprocket wheels -->
+            <circle cx="76" cy="286" r="14" class="dark"/>
+            <circle cx="76" cy="286" r="6" class="body-shape"/>
+            <circle cx="304" cy="286" r="14" class="dark"/>
+            <circle cx="304" cy="286" r="6" class="body-shape"/>
+          </g>
+
+          <!-- Cab platform -->
+          <rect x="100" y="245" width="220" height="22" class="dark"/>
+
+          <!-- Cab -->
+          <g>
+            <path d="M 130 165 L 220 165 L 240 195 L 240 245 L 110 245 L 110 195 Z" class="body-shape"/>
+            <!-- Cab window -->
+            <path d="M 145 178 L 215 178 L 228 200 L 145 200 Z" class="dark"/>
+            <!-- Door line -->
+            <line x1="178" y1="200" x2="178" y2="245" stroke="#141414" stroke-width="2.5"/>
+            <!-- Cab handle -->
+            <rect x="170" y="220" width="6" height="14" class="dark"/>
+          </g>
+
+          <!-- Boom and arm -->
+          <g class="excavator-boom">
+            <!-- Boom (upper arm) -->
+            <path d="M 200 195 L 360 90 L 380 110 L 220 215 Z" class="body-shape"/>
+            <!-- Pivot point -->
+            <circle cx="210" cy="205" r="9" class="dark"/>
+            <circle cx="210" cy="205" r="3" class="body-shape"/>
+
+            <!-- Stick (lower arm) -->
+            <path d="M 350 90 L 410 145 L 395 165 L 335 110 Z" class="body-shape"/>
+            <circle cx="370" cy="100" r="8" class="dark"/>
+
+            <!-- Bucket -->
+            <path d="M 395 145 L 435 175 L 425 205 L 405 215 L 385 195 L 380 165 Z" class="body-shape"/>
+            <!-- Bucket teeth -->
+            <path d="M 425 205 L 423 215 M 415 210 L 413 220 M 405 215 L 403 225" stroke="#141414" stroke-width="3" stroke-linecap="square"/>
+            <!-- Bucket pivot -->
+            <circle cx="395" cy="160" r="6" class="dark"/>
+          </g>
+
+          <!-- Hydraulic cylinder hint -->
+          <line x1="225" y1="200" x2="290" y2="155" stroke="#141414" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-prompt">
+    <div class="container">
+      <div class="scroll-prompt-inner">
+        <span>↓ DIG IN</span>
+        <span class="arrow-down">▼ ▼ ▼</span>
+        <span>5 STOPS AHEAD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CAUTION TAPE
+     ============================================================ -->
+<div class="caution-tape" aria-hidden="true"></div>
+
+<!-- ============================================================
+     THE BRIEF
+     ============================================================ -->
+<section class="section brief" id="brief">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">SECTION 01 · WHO'S ON THE JOB</div>
+      <h2 class="section-title">The Brief</h2>
+    </div>
+
+    <div class="brief-grid">
+      <div class="brief-prose reveal">
+        <p>
+          Six-plus years building and running B2B marketing programs in environments where the data wasn't always there, the playbook didn't exist yet, and the customers were the most reliable source of strategic truth.
+        </p>
+        <p>
+          Most recently, owning U.S. segment marketing at Life Fitness / Hammer Strength for Hospitality and Multi-Unit Housing, the two largest commercial fitness verticals. The last two years have been mostly research, data quality, and stakeholder facilitation in disguise. Quarterly VOC programs with field sellers. A CRM enrichment initiative that closed a 50%-to-13% data gap. A $700K+/year RFP narrative built on third-party research from McKinsey, Global Wellness Institute, Murphy Research, and ACSM.
+        </p>
+        <p>
+          The True Voice Program reads like a focused, scaled version of work I've already loved doing: turning customer signal into program direction across a real dealer network and a real product line. That's why this one.
+        </p>
+      </div>
+
+      <div class="brief-callout reveal">
+        <ul class="brief-spec-list">
+          <li><span class="spec-key">Role</span><span class="spec-val">Market Communications Consultant</span></li>
+          <li><span class="spec-key">Team</span><span class="spec-val">Caterpillar · True Voice Program</span></li>
+          <li><span class="spec-key">Site</span><span class="spec-val">Chicago, IL · Onsite</span></li>
+          <li><span class="spec-key">Posted</span><span class="spec-val">Apr 28, 2026</span></li>
+          <li><span class="spec-key">Submitted</span><span class="spec-val">Within 48 hrs</span></li>
+          <li><span class="spec-key">Approach</span><span class="spec-val">VOC · Data fluency · Facilitation</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="caution-tape" aria-hidden="true"></div>
+
+<!-- ============================================================
+     THE EXCAVATION — 4 case studies
+     ============================================================ -->
+<section class="section excavation" id="excavation">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">SECTION 02 · RECENT EXCAVATIONS</div>
+      <h2 class="section-title">Four Digs</h2>
+    </div>
+
+    <p class="excavation-intro reveal">
+      Four projects from my last two years that map directly to what the True Voice Program is built for: voice of customer programs, data quality, research synthesis, and stakeholder facilitation.
+    </p>
+
+    <!-- Excavation 01 -->
+    <article class="dig-site">
+      <header class="dig-site-header">
+        <div class="site-id">EXCAVATION 01</div>
+        <div class="depth-tag">QUALITATIVE RESEARCH · STAKEHOLDER COORDINATION</div>
+      </header>
+      <div class="dig-site-body">
+        <div class="dig-content">
+          <h3 class="dig-site-title">Voice of Customer Program</h3>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Brief</div>
+            <p>Hospitality field sellers were the closest source of buyer truth. There was no formal feedback loop and no mechanism for routing what they were hearing back into messaging or strategy.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Method</div>
+            <p>Designed and facilitated quarterly VOC calls across three hospitality tiers (Select, Premium, Luxury). Structured each conversation around competitive pressure, buyer motivations, content gaps, and emerging trends. Synthesized findings into segment-specific insight summaries shared back across product, sales, and marketing.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Payoff</div>
+            <p>Insights routed into messaging, sales enablement assets, and direct campaign concepts, including the inspiration for the segment's first full-funnel integrated campaign.</p>
+          </div>
+        </div>
+
+        <aside class="dig-stats">
+          <div class="dig-stats-headline">3</div>
+          <div class="dig-stats-caption">Customer tiers covered<br>Quarterly cadence</div>
+
+          <ul class="dig-stats-list">
+            <li>Competitive perception of Technogym in luxury</li>
+            <li>"Wow factor" trend in upper-upscale</li>
+            <li>Hotels positioning to attract athletes</li>
+            <li>Mid-funnel content gaps surfaced</li>
+          </ul>
+        </aside>
+      </div>
+    </article>
+
+    <!-- Excavation 02 -->
+    <article class="dig-site">
+      <header class="dig-site-header">
+        <div class="site-id">EXCAVATION 02</div>
+        <div class="depth-tag">DATA AUDIT · ANALYTICS COLLABORATION</div>
+      </header>
+      <div class="dig-site-body">
+        <div class="dig-content">
+          <h3 class="dig-site-title">Data Quality Diagnostic</h3>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Brief</div>
+            <p>Segmentation across the hospitality contact database was guesswork. Something was wrong, but nobody had quantified what.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Method</div>
+            <p>Audited the contact database. Identified roughly 50% of records missing job titles. Partnered with RevOps and ZoomInfo to design and run a targeted enrichment program against priority accounts and segments.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Payoff</div>
+            <p>Role-based segmentation became possible for the first time. Outreach got more relevant. The cleaner data also became the foundation for a behavioral funnel-stage tracking system in Pardot, replacing one-size-fits-all messaging.</p>
+          </div>
+        </div>
+
+        <aside class="dig-stats">
+          <div class="dig-stats-headline split">50%<span class="arrow"> → </span>13%</div>
+          <div class="dig-stats-caption">Missing job titles<br>Hospitality contact database</div>
+
+          <ul class="dig-stats-list">
+            <li>50,000+ contacts audited</li>
+            <li>Cross-functional with RevOps</li>
+            <li>Vendor coordination · ZoomInfo</li>
+            <li>Unlocked role-based outreach</li>
+          </ul>
+        </aside>
+      </div>
+    </article>
+
+    <!-- Excavation 03 -->
+    <article class="dig-site">
+      <header class="dig-site-header">
+        <div class="site-id">EXCAVATION 03</div>
+        <div class="depth-tag">SECONDARY RESEARCH · NARRATIVE BUILDING</div>
+      </header>
+      <div class="dig-site-body">
+        <div class="dig-content">
+          <h3 class="dig-site-title">Strategic Research Synthesis</h3>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Brief</div>
+            <p>$700K+/year key account RFP. The customer wanted a strategic partner, not a vendor. A standard product pitch would lose the room.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Method</div>
+            <p>Synthesized third-party research into a consultative narrative: wellness real estate trends, demographic shifts, strength training growth, layout philosophy, and ADA considerations. Built the strategic frame that anchored every subsequent design, technology, and product session.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Payoff</div>
+            <p>The narrative held through the full pitch cycle. Set the tone for a partnership-led conversation rather than a feature-and-spec one.</p>
+          </div>
+        </div>
+
+        <aside class="dig-stats">
+          <div class="dig-stats-headline">$700K+</div>
+          <div class="dig-stats-caption">Annual key account value<br>Strategic narrative anchored</div>
+
+          <div class="source-stack">
+            <div class="source-item"><span>McKinsey</span><span class="src-tag">REAL ESTATE</span></div>
+            <div class="source-item"><span>Global Wellness Inst.</span><span class="src-tag">ECONOMY</span></div>
+            <div class="source-item"><span>Murphy Research</span><span class="src-tag">BEHAVIORAL</span></div>
+            <div class="source-item"><span>ACSM</span><span class="src-tag">FITNESS</span></div>
+          </div>
+        </aside>
+      </div>
+    </article>
+
+    <!-- Excavation 04 -->
+    <article class="dig-site">
+      <header class="dig-site-header">
+        <div class="site-id">EXCAVATION 04</div>
+        <div class="depth-tag">PROJECT FACILITATION · CONSENSUS BUILDING</div>
+      </header>
+      <div class="dig-site-body">
+        <div class="dig-content">
+          <h3 class="dig-site-title">Senior Stakeholder Workshop</h3>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Brief</div>
+            <p>Senior leadership team from a major global hospitality brand was visiting. A standard demo would not differentiate. The opportunity was to move from vendor to strategic partner.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Method</div>
+            <p>Designed and helped run structured workshops: brand matrix mapping across the customer's full portfolio, persona development by sub-brand, and "wow moments" ideation. Captured insights live and translated them into a positioning framework organized by brand identity.</p>
+          </div>
+
+          <div class="dig-block">
+            <div class="dig-block-label">The Payoff</div>
+            <p>The customer called the company "the hospitality company" and asked for strategic partnership, not vendor work. Workshop output became a positioning framework plus a slate of 2026 campaign concepts.</p>
+          </div>
+        </div>
+
+        <aside class="dig-stats">
+          <div class="dig-stats-headline">3</div>
+          <div class="dig-stats-caption">Structured workshop modules<br>Senior stakeholder day</div>
+
+          <ul class="dig-stats-list">
+            <li>Brand matrix mapping</li>
+            <li>Persona development</li>
+            <li>"Wow moments" ideation</li>
+            <li>Live insight capture &amp; translation</li>
+          </ul>
+        </aside>
+      </div>
+    </article>
+  </div>
+</section>
+
+<div class="caution-tape" aria-hidden="true"></div>
+
+<!-- ============================================================
+     THE TOOLKIT
+     ============================================================ -->
+<section class="section toolkit" id="toolkit">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">SECTION 03 · WHAT'S IN THE BOX</div>
+      <h2 class="section-title">The Toolkit</h2>
+    </div>
+
+    <div class="pegboard">
+      <div class="tool-rack reveal">
+        <h3 class="tool-rack-title">Research Methods</h3>
+        <div class="tool-rack-sub">Qualitative · Quantitative · Synthesis</div>
+        <ul class="tool-list">
+          <li>Voice of Customer Programs</li>
+          <li>Stakeholder Interviews</li>
+          <li>Workshop Facilitation</li>
+          <li>Survey Analysis</li>
+          <li>Secondary Research Synthesis</li>
+          <li>Persona Development</li>
+          <li>Competitive Intelligence</li>
+          <li>Insight Translation</li>
+        </ul>
+      </div>
+
+      <div class="tool-rack reveal">
+        <h3 class="tool-rack-title">Data &amp; Analytics</h3>
+        <div class="tool-rack-sub">Quality · Segmentation · Reporting</div>
+        <ul class="tool-list">
+          <li>Salesforce CRM</li>
+          <li>Pardot / MCAE</li>
+          <li>HubSpot</li>
+          <li>ZoomInfo</li>
+          <li>Google Analytics</li>
+          <li>Lead Scoring</li>
+          <li>Behavioral Triggers</li>
+          <li>Database Auditing</li>
+        </ul>
+      </div>
+
+      <div class="tool-rack reveal">
+        <h3 class="tool-rack-title">Project &amp; Program</h3>
+        <div class="tool-rack-sub">Coordination · Vendor Management</div>
+        <ul class="tool-list">
+          <li>Cross-Functional Coordination</li>
+          <li>Asana</li>
+          <li>Monday.com</li>
+          <li>Vendor &amp; Agency Management</li>
+          <li>Stakeholder Reporting</li>
+          <li>Workstream Leadership</li>
+          <li>Kentico CMS</li>
+          <li>Livestorm</li>
+        </ul>
+      </div>
+
+      <div class="tool-rack reveal">
+        <h3 class="tool-rack-title">AI-Augmented Workflow</h3>
+        <div class="tool-rack-sub">Practical, applied use of GenAI</div>
+        <ul class="tool-list">
+          <li>Claude (custom agent workflows)</li>
+          <li>Perplexity (research synthesis)</li>
+          <li>ChatGPT (drafting · editing)</li>
+          <li>Custom Research Agents</li>
+          <li>Persona Development</li>
+          <li>Messaging Iteration</li>
+          <li>Competitive Intel Synthesis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="caution-tape" aria-hidden="true"></div>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="section cta" id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">SECTION 04 · OPEN FOR WORK</div>
+      <h2 class="section-title">Let's Build Something</h2>
+    </div>
+
+    <p class="cta-sub reveal">
+      If any of this lands, I'd love a conversation. Direct lines below. Pick whichever you prefer.
+    </p>
+
+    <div class="contact-grid">
+      <a class="contact-card reveal" href="mailto:blakebyelford@gmail.com">
+        <div class="card-label">Email</div>
+        <div class="card-val">blakebyelford@gmail.com</div>
+      </a>
+
+      <a class="contact-card reveal" href="tel:+12819288447">
+        <div class="card-label">Phone</div>
+        <div class="card-val">(281) 928-8447</div>
+      </a>
+
+      <a class="contact-card reveal" href="https://linkedin.com/in/blakeelford" target="_blank" rel="noopener">
+        <div class="card-label">LinkedIn</div>
+        <div class="card-val">/in/blakeelford</div>
+      </a>
+    </div>
+
+    <a class="portfolio-strip reveal" href="https://blake-elford-website.vercel.app/" target="_blank" rel="noopener">
+      <span class="strip-text">SEE THE <span class="accent">FULL PORTFOLIO</span></span>
+      <span class="strip-arrow">VISIT SITE →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div>BLAKE W. ELFORD · CHICAGO, ILL · 2026</div>
+    <div class="footer-line">
+      Built specifically for this application. All content original. No Caterpillar trademarks, logos, or proprietary equipment imagery used.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll-triggered reveals
+  const revealElements = document.querySelectorAll('.reveal, .dig-site');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -60px 0px'
+  });
+
+  revealElements.forEach((el) => observer.observe(el));
+
+  // Subtle parallax on the excavator boom angle based on scroll
+  const boom = document.querySelector('.excavator-boom');
+  if (boom) {
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+      if (scrollY < heroHeight) {
+        const tilt = Math.min(scrollY / 80, 8);
+        boom.style.transform = `rotate(${-tilt}deg)`;
+      }
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>
